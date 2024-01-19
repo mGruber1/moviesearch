@@ -7,7 +7,8 @@ import MovieSearch from './components/MovieSearch';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState("star");
+  const [favouriteMovies, setFavouriteMovies] = useState([]);
 
   const getMovies = async () => {
     const apiKey = process.env.REACT_APP_OMDB_API_KEY;
@@ -21,6 +22,10 @@ const App = () => {
 
   }
 
+  const addFavouriteMovie = (movie) => {
+    setFavouriteMovies(() => [...favouriteMovies, movie]);
+  };
+
   useEffect(() => {
     getMovies();
   }, [searchValue])
@@ -32,7 +37,13 @@ const App = () => {
         <MovieSearch searchValue={searchValue} setSearchValue={setSearchValue}></MovieSearch>
       </div>
       <div className='row'>
-        <MovieList movies={movies}></MovieList>
+        <MovieList movies={movies} addFavouriteMovie={addFavouriteMovie}></MovieList>
+      </div>
+      <div className="row d-flex align-items-center my-4">
+        <MovieListHeading heading="My Favourites" />
+      </div>
+      <div className='row'>
+        <MovieList movies={favouriteMovies}></MovieList>
       </div>
     </div>
   )
