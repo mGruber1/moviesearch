@@ -1,0 +1,12 @@
+.image-container {
+    position: relative;
+    border: 1px solid;
+}
+
+.overlay {
+    position: absolute;
+    color: white;
+    margin: 0px auto;
+    padding: 5px;
+    background-color: black;
+}

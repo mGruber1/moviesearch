@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import MovieListHeading from './components/MovieListHeading';
 import MovieSearch from './components/MovieSearch';
+import AddFavourite from './components/AddFavourite';
+import RemoveFavourite from './components/RemoveFavourite';
 
 const App = () => {
   const [movies, setMovies] = useState([]);
@@ -19,12 +21,21 @@ const App = () => {
     if (responseJson.Search) {
       setMovies(responseJson.Search);
     }
-
   }
 
   const addFavouriteMovie = (movie) => {
     setFavouriteMovies(() => [...favouriteMovies, movie]);
   };
+
+  const removeFavouriteMovie = (movie) => {
+    const index = favouriteMovies.indexOf(movie);
+    if (index !== -1) {
+      const newFavourites = [...favouriteMovies];
+      newFavourites.splice(index, 1);
+      setFavouriteMovies(newFavourites);
+    }
+  };
+
 
   useEffect(() => {
     getMovies();
@@ -37,13 +48,13 @@ const App = () => {
         <MovieSearch searchValue={searchValue} setSearchValue={setSearchValue}></MovieSearch>
       </div>
       <div className='row'>
-        <MovieList movies={movies} addFavouriteMovie={addFavouriteMovie}></MovieList>
+        <MovieList movies={movies} clickHandler={addFavouriteMovie} actionComponent={AddFavourite}></MovieList>
       </div>
       <div className="row d-flex align-items-center my-4">
         <MovieListHeading heading="My Favourites" />
       </div>
       <div className='row'>
-        <MovieList movies={favouriteMovies}></MovieList>
+        <MovieList movies={favouriteMovies} clickHandler={removeFavouriteMovie} actionComponent={RemoveFavourite}></MovieList>
       </div>
     </div>
   )
